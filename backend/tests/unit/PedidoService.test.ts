@@ -69,5 +69,13 @@ describe('PedidoService', () => {
 
       expect(service.listar().map((p) => p.total)).toEqual([2500, 5000]);
     });
+
+    it('debería devolver una copia: modificarla no afecta al service', () => {
+      crear([{ productoId: MUFFIN, cantidad: 1 }]);
+
+      service.listar().pop();
+
+      expect(service.listar()).toHaveLength(1);
+    });
   });
 });
