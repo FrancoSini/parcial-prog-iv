@@ -103,5 +103,20 @@ describe('PedidoService', () => {
     ])('debería lanzar ValidationError si items %s', (_caso, items) => {
       expect(() => crear(items)).toThrow(ValidationError);
     });
+
+    it.each([
+      ['es null', null],
+      ['es un texto', 'muffin'],
+      ['no tiene productoId', { cantidad: 1 }],
+      ['tiene productoId como texto', { productoId: '2', cantidad: 1 }],
+      ['tiene productoId decimal', { productoId: 1.5, cantidad: 1 }],
+      ['no tiene cantidad', { productoId: MUFFIN }],
+      ['tiene cantidad 0', { productoId: MUFFIN, cantidad: 0 }],
+      ['tiene cantidad negativa', { productoId: MUFFIN, cantidad: -1 }],
+      ['tiene cantidad decimal', { productoId: MUFFIN, cantidad: 1.5 }],
+      ['tiene cantidad como texto', { productoId: MUFFIN, cantidad: '2' }],
+    ])('debería lanzar ValidationError si un item %s', (_caso, item) => {
+      expect(() => crear([item])).toThrow(ValidationError);
+    });
   });
 });
