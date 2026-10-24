@@ -24,4 +24,14 @@ describe('ProductoService', () => {
       expect(service.listar()).toHaveLength(2);
     });
   });
+
+  describe('obtener(id)', () => {
+    it('debería devolver el producto que tiene ese id', () => {
+      const p1 = falso(1);
+      const p2 = falso(2);
+      const service = new ProductoService([p1, p2]);
+
+      expect(service.obtener(2)).toBe(p2);
+    });
+  });
 });
