@@ -37,4 +37,14 @@ describe('PedidoService', () => {
       expect(pedido.total).toBe(17500);
     });
   });
+
+  describe('crear() - datos del pedido', () => {
+    it('debería asignar ids incrementales empezando en 1', () => {
+      const p1 = crear([{ productoId: MUFFIN, cantidad: 1 }]);
+      const p2 = crear([{ productoId: MUFFIN, cantidad: 1 }]);
+      const p3 = crear([{ productoId: MUFFIN, cantidad: 1 }]);
+
+      expect([p1.id, p2.id, p3.id]).toEqual([1, 2, 3]);
+    });
+  });
 });
