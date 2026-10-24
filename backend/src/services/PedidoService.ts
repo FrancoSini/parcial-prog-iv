@@ -20,6 +20,6 @@ export class PedidoService {
   }
 
   listar(): Pedido[] {
-    return this.pedidos;
+    return [...this.pedidos];
   }
 }
