@@ -2,6 +2,8 @@ import { Pedido, type ItemPedido } from "../models/Pedido.js";
 import type { ProductoService } from "./ProductoService.js";
 
 export class PedidoService {
+  private siguienteId = 1;
+
   constructor(private readonly productoService: ProductoService) {}
 
   crear(items: unknown[]): Pedido {
@@ -11,6 +13,6 @@ export class PedidoService {
       0,
     );
 
-    return new Pedido(1, [], "pendiente", total);
+    return new Pedido(this.siguienteId++, [], "pendiente", total);
   }
 }
