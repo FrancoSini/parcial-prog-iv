@@ -38,6 +38,17 @@ export class PedidoService {
     if (!Array.isArray(items) || items.length === 0) {
       throw new ValidationError("El pedido debe tener al menos un item");
     }
-    return items as ItemPedido[];
+
+    return items.map((item: unknown) => {
+      const { productoId, cantidad } = (item ?? {}) as Record<string, unknown>;
+
+      if (!Number.isInteger(productoId)) {
+        throw new ValidationError("Cada item debe tener un productoId entero");
+      }
+      if (!Number.isInteger(cantidad) || (cantidad as number) < 1) {
+        throw new ValidationError("La cantidad debe ser un entero mayor o igual a 1");
+      }
+      return { productoId: productoId as number, cantidad: cantidad as number };
+    });
   }
 }
