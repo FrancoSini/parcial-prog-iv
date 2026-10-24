@@ -57,4 +57,17 @@ describe('PedidoService', () => {
       expect(pedido.items).toEqual([{ productoId: MUFFIN, cantidad: 2 }]);
     });
   });
+
+  describe('listar()', () => {
+    it('debería devolver una lista vacía si todavía no hay pedidos', () => {
+      expect(service.listar()).toEqual([]);
+    });
+
+    it('debería devolver los pedidos en el orden en que se crearon', () => {
+      crear([{ productoId: MUFFIN, cantidad: 1 }]);
+      crear([{ productoId: MUFFIN, cantidad: 2 }]);
+
+      expect(service.listar().map((p) => p.total)).toEqual([2500, 5000]);
+    });
+  });
 });
