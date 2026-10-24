@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { PedidoService } from '../../src/services/PedidoService.js';
 import { ProductoService } from '../../src/services/ProductoService.js';
-import { NotFoundError } from '../../src/errors/index.js';
+import { NotFoundError, ValidationError } from '../../src/errors/index.js';
 import type { Producto } from '../../src/models/Producto.js';
 
 // Producto de mentira con el precio que yo elija
@@ -90,6 +90,18 @@ describe('PedidoService', () => {
 
     it('debería lanzar NotFoundError si el pedido no existe', () => {
       expect(() => service.obtener(42)).toThrow(NotFoundError);
+    });
+  });
+
+  describe('crear() - validaciones', () => {
+    it.each([
+      ['no es un array', 'hola'],
+      ['es undefined', undefined],
+      ['es null', null],
+      ['es un objeto', { productoId: MUFFIN, cantidad: 1 }],
+      ['está vacío', []],
+    ])('debería lanzar ValidationError si items %s', (_caso, items) => {
+      expect(() => crear(items)).toThrow(ValidationError);
     });
   });
 });
