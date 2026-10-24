@@ -1,5 +1,5 @@
 import { Pedido, type ItemPedido } from "../models/Pedido.js";
-import { NotFoundError } from "../errors/index.js";
+import { NotFoundError, ValidationError } from "../errors/index.js";
 import type { ProductoService } from "./ProductoService.js";
 
 export class PedidoService {
@@ -9,13 +9,15 @@ export class PedidoService {
   constructor(private readonly productoService: ProductoService) {}
 
   crear(items: unknown[]): Pedido {
-    const total = (items as ItemPedido[]).reduce(
+    const itemsValidos = this.validarItems(items);
+
+    const total = itemsValidos.reduce(
       (acc, item) =>
         acc + this.productoService.obtener(item.productoId).calcularPrecio() * item.cantidad,
       0,
     );
 
-    const pedido = new Pedido(this.siguienteId++, items as ItemPedido[], "pendiente", total);
+    const pedido = new Pedido(this.siguienteId++, itemsValidos, "pendiente", total);
     this.pedidos = [...this.pedidos, pedido];
     return pedido;
   }
@@ -30,5 +32,12 @@ export class PedidoService {
       throw new NotFoundError(`Pedido ${id} no encontrado`);
     }
     return pedido;
+  }
+
+  private validarItems(items: unknown): ItemPedido[] {
+    if (!Array.isArray(items) || items.length === 0) {
+      throw new ValidationError("El pedido debe tener al menos un item");
+    }
+    return items as ItemPedido[];
   }
 }
