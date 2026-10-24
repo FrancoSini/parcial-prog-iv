@@ -1,4 +1,5 @@
 import type { Producto } from "../models/Producto.js";
+import { NotFoundError } from "../errors/index.js";
 
 export class ProductoService {
   constructor(private readonly productos: readonly Producto[]) {}
@@ -8,6 +9,10 @@ export class ProductoService {
   }
 
   obtener(id: number): Producto {
-    return this.productos.find((p) => p.id === id) as Producto;
+    const producto = this.productos.find((p) => p.id === id);
+    if (!producto) {
+      throw new NotFoundError(`Producto con id ${id} no encontrado`);
+    }
+    return producto;
   }
 }
