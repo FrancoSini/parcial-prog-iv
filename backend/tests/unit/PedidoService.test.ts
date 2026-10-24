@@ -118,5 +118,13 @@ describe('PedidoService', () => {
     ])('debería lanzar ValidationError si un item %s', (_caso, item) => {
       expect(() => crear([item])).toThrow(ValidationError);
     });
+
+    it('debería lanzar ValidationError si el producto no existe', () => {
+      expect(() => crear([{ productoId: 999, cantidad: 1 }])).toThrow(ValidationError);
+    });
+
+    it('debería incluir el id en el mensaje cuando el producto no existe', () => {
+      expect(() => crear([{ productoId: 999, cantidad: 1 }])).toThrow(/999/);
+    });
   });
 });
