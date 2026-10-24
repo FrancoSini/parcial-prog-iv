@@ -2,6 +2,7 @@ import { Pedido, type ItemPedido } from "../models/Pedido.js";
 import type { ProductoService } from "./ProductoService.js";
 
 export class PedidoService {
+  private pedidos: Pedido[] = [];
   private siguienteId = 1;
 
   constructor(private readonly productoService: ProductoService) {}
@@ -13,6 +14,12 @@ export class PedidoService {
       0,
     );
 
-    return new Pedido(this.siguienteId++, items as ItemPedido[], "pendiente", total);
+    const pedido = new Pedido(this.siguienteId++, items as ItemPedido[], "pendiente", total);
+    this.pedidos = [...this.pedidos, pedido];
+    return pedido;
+  }
+
+  listar(): Pedido[] {
+    return this.pedidos;
   }
 }
