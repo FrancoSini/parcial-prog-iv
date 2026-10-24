@@ -48,7 +48,15 @@ export class PedidoService {
       if (!Number.isInteger(cantidad) || (cantidad as number) < 1) {
         throw new ValidationError("La cantidad debe ser un entero mayor o igual a 1");
       }
-      return { productoId: productoId as number, cantidad: cantidad as number };
+      const id = productoId as number;
+      if (!this.existeProducto(id)) {
+        throw new ValidationError(`El producto ${id} no existe`);
+      }
+      return { productoId: id, cantidad: cantidad as number };
     });
+  }
+
+  private existeProducto(id: number): boolean {
+    return this.productoService.listar().some((p) => p.id === id);
   }
 }
