@@ -15,5 +15,13 @@ describe('ProductoService', () => {
 
       expect(service.listar()).toEqual([p1, p2]);
     });
+
+    it('debería devolver una copia: modificarla no afecta al service', () => {
+      const service = new ProductoService([falso(1), falso(2)]);
+
+      service.listar().pop();
+
+      expect(service.listar()).toHaveLength(2);
+    });
   });
 });
