@@ -6,4 +6,8 @@ export class ProductoService {
   listar(): Producto[] {
     return [...this.productos];
   }
+
+  obtener(id: number): Producto {
+    return this.productos.find((p) => p.id === id) as Producto;
+  }
 }

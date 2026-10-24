@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ProductoService } from '../../src/services/ProductoService.js';
+import { NotFoundError } from '../../src/errors/index.js';
 import type { Producto } from '../../src/models/Producto.js';
 
 // Producto de mentira: el test no depende de los modelos reales
@@ -32,6 +33,12 @@ describe('ProductoService', () => {
       const service = new ProductoService([p1, p2]);
 
       expect(service.obtener(2)).toBe(p2);
+    });
+
+    it('debería lanzar NotFoundError si el producto no existe', () => {
+      const service = new ProductoService([falso(1)]);
+
+      expect(() => service.obtener(999)).toThrow(NotFoundError);
     });
   });
 });
