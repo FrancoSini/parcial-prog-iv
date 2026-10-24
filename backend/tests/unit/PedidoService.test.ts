@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { PedidoService } from '../../src/services/PedidoService.js';
 import { ProductoService } from '../../src/services/ProductoService.js';
+import { NotFoundError } from '../../src/errors/index.js';
 import type { Producto } from '../../src/models/Producto.js';
 
 // Producto de mentira con el precio que yo elija
@@ -85,6 +86,10 @@ describe('PedidoService', () => {
       const segundo = crear([{ productoId: MUFFIN, cantidad: 2 }]);
 
       expect(service.obtener(2)).toBe(segundo);
+    });
+
+    it('debería lanzar NotFoundError si el pedido no existe', () => {
+      expect(() => service.obtener(42)).toThrow(NotFoundError);
     });
   });
 });
