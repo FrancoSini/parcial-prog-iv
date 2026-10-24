@@ -13,6 +13,6 @@ export class PedidoService {
       0,
     );
 
-    return new Pedido(this.siguienteId++, [], "pendiente", total);
+    return new Pedido(this.siguienteId++, items as ItemPedido[], "pendiente", total);
   }
 }
