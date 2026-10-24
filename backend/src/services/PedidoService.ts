@@ -1,4 +1,5 @@
 import { Pedido, type ItemPedido } from "../models/Pedido.js";
+import { NotFoundError } from "../errors/index.js";
 import type { ProductoService } from "./ProductoService.js";
 
 export class PedidoService {
@@ -24,6 +25,10 @@ export class PedidoService {
   }
 
   obtener(id: number): Pedido {
-    return this.pedidos.find((p) => p.id === id) as Pedido;
+    const pedido = this.pedidos.find((p) => p.id === id);
+    if (!pedido) {
+      throw new NotFoundError(`Pedido ${id} no encontrado`);
+    }
+    return pedido;
   }
 }
