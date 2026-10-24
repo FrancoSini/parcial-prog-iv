@@ -22,4 +22,8 @@ export class PedidoService {
   listar(): Pedido[] {
     return [...this.pedidos];
   }
+
+  obtener(id: number): Pedido {
+    return this.pedidos.find((p) => p.id === id) as Pedido;
+  }
 }
