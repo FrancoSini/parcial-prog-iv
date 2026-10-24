@@ -78,4 +78,13 @@ describe('PedidoService', () => {
       expect(service.listar()).toHaveLength(1);
     });
   });
+
+  describe('obtener(id)', () => {
+    it('debería devolver el pedido que tiene ese id', () => {
+      crear([{ productoId: MUFFIN, cantidad: 1 }]);
+      const segundo = crear([{ productoId: MUFFIN, cantidad: 2 }]);
+
+      expect(service.obtener(2)).toBe(segundo);
+    });
+  });
 });
