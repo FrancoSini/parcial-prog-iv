@@ -1,10 +1,16 @@
-import { Pedido } from "../models/Pedido.js";
+import { Pedido, type ItemPedido } from "../models/Pedido.js";
 import type { ProductoService } from "./ProductoService.js";
 
 export class PedidoService {
   constructor(private readonly productoService: ProductoService) {}
 
   crear(items: unknown[]): Pedido {
-    return new Pedido(1, [], "pendiente", 0);
+    const total = (items as ItemPedido[]).reduce(
+      (acc, item) =>
+        acc + this.productoService.obtener(item.productoId).calcularPrecio() * item.cantidad,
+      0,
+    );
+
+    return new Pedido(1, [], "pendiente", total);
   }
 }
