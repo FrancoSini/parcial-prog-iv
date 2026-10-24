@@ -4,6 +4,6 @@ export class ProductoService {
   constructor(private readonly productos: readonly Producto[]) {}
 
   listar(): Producto[] {
-    return [];
+    return this.productos as Producto[];
   }
 }
