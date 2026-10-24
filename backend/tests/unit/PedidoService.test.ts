@@ -126,5 +126,29 @@ describe('PedidoService', () => {
     it('debería incluir el id en el mensaje cuando el producto no existe', () => {
       expect(() => crear([{ productoId: 999, cantidad: 1 }])).toThrow(/999/);
     });
+
+    it('no debería guardar ningún pedido si un item es inválido', () => {
+      expect(() =>
+        crear([
+          { productoId: MUFFIN, cantidad: 1 },
+          { productoId: 999, cantidad: 1 },
+        ]),
+      ).toThrow(ValidationError);
+
+      expect(service.listar()).toHaveLength(0);
+    });
+
+    it('no debería consumir un id si el pedido es inválido', () => {
+      expect(() => crear([])).toThrow(ValidationError);
+
+      const pedido = crear([{ productoId: MUFFIN, cantidad: 1 }]);
+      expect(pedido.id).toBe(1);
+    });
+
+    it('debería guardar solo productoId y cantidad, ignorando otros campos', () => {
+      const pedido = crear([{ productoId: MUFFIN, cantidad: 1, precio: 1, extra: 'x' }]);
+
+      expect(pedido.items).toEqual([{ productoId: MUFFIN, cantidad: 1 }]);
+    });
   });
 });
