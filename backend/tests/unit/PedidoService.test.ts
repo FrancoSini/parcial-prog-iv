@@ -46,5 +46,15 @@ describe('PedidoService', () => {
 
       expect([p1.id, p2.id, p3.id]).toEqual([1, 2, 3]);
     });
+
+    it('debería crear el pedido en estado pendiente', () => {
+      expect(crear([{ productoId: MUFFIN, cantidad: 1 }]).estado).toBe('pendiente');
+    });
+
+    it('debería guardar los items del pedido', () => {
+      const pedido = crear([{ productoId: MUFFIN, cantidad: 2 }]);
+
+      expect(pedido.items).toEqual([{ productoId: MUFFIN, cantidad: 2 }]);
+    });
   });
 });
