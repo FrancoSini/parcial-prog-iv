@@ -40,4 +40,40 @@ describe('ReporteService', () => {
       expect(reportes.facturacionTotal()).toBe(12500);
     });
   });
+
+  describe('cantidadVendidaPorProducto()', () => {
+    it('debería devolver un objeto vacío si no hay pedidos', () => {
+      expect(reportes.cantidadVendidaPorProducto()).toEqual({});
+    });
+
+    it('debería agrupar las cantidades por tipo de producto', () => {
+      pedidos.crear([
+        { productoId: EXPRESO, cantidad: 3 },
+        { productoId: FILTRADO, cantidad: 1 },
+        { productoId: MUFFIN, cantidad: 2 },
+      ]);
+
+      expect(reportes.cantidadVendidaPorProducto()).toEqual({
+        Expreso: 3,
+        Filtrado: 1,
+        Pastelería: 2,
+      });
+    });
+
+    it('debería acumular las cantidades entre distintos pedidos', () => {
+      pedidos.crear([{ productoId: EXPRESO, cantidad: 3 }]);
+      pedidos.crear([{ productoId: EXPRESO, cantidad: 2 }]);
+
+      expect(reportes.cantidadVendidaPorProducto()).toEqual({ Expreso: 5 });
+    });
+
+    it('debería sumar variantes distintas del mismo tipo', () => {
+      pedidos.crear([
+        { productoId: EXPRESO, cantidad: 1 },
+        { productoId: EXPRESO_GRANDE, cantidad: 2 },
+      ]);
+
+      expect(reportes.cantidadVendidaPorProducto()).toEqual({ Expreso: 3 });
+    });
+  });
 });
