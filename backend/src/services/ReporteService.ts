@@ -5,17 +5,18 @@ export interface MasVendido {
   producto: string;
   cantidad: number;
 }
-
 export class ReporteService {
   constructor(
     private readonly pedidoService: PedidoService,
     private readonly productoService: ProductoService,
   ) {}
 
+  // Suma de los totales de todos los pedidos.
   facturacionTotal(): number {
     return this.pedidoService.listar().reduce((acc, pedido) => acc + pedido.total, 0);
   }
 
+  // { "Expreso": 10, "Filtrado": 4, "Pastelería": 3 }  (agrupado por tipo de producto)
   cantidadVendidaPorProducto(): Record<string, number> {
     return this.pedidoService
       .listar()
@@ -26,6 +27,7 @@ export class ReporteService {
       }, {});
   }
 
+  // Sale del resultado anterior. Si hay empate gana el primero que se vendió.
   productoMasVendido(): MasVendido | undefined {
     const vendidos = Object.entries(this.cantidadVendidaPorProducto());
     if (vendidos.length === 0) return undefined;

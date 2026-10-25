@@ -3,26 +3,25 @@ import { NotFoundError, ValidationError } from "../errors/index.js";
 import type { ProductoService } from "./ProductoService.js";
 
 export class PedidoService {
-  private pedidos: Pedido[] = [];
-  private siguienteId = 1;
+    private pedidos: Pedido[] = [];
+    private siguienteId=1;
+    
+    constructor(private productoService: ProductoService) {}
 
-  constructor(private readonly productoService: ProductoService) {}
+    crear(items: unknown[]): Pedido {
+        const itemsValidos= this.validarItems(items);
 
-  crear(items: unknown[]): Pedido {
-    const itemsValidos = this.validarItems(items);
-
-    const total = itemsValidos.reduce(
-      (acc, item) =>
+        const total = itemsValidos.reduce ((acc, item) =>
         acc + this.productoService.obtener(item.productoId).calcularPrecio() * item.cantidad,
-      0,
-    );
+              0,
+    );  
 
     const pedido = new Pedido(this.siguienteId++, itemsValidos, "pendiente", total);
     this.pedidos = [...this.pedidos, pedido];
     return pedido;
   }
 
-  listar(): Pedido[] {
+    listar(): Pedido[] {
     return [...this.pedidos];
   }
 
