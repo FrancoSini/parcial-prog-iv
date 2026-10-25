@@ -8,6 +8,6 @@ export class ReporteService {
   ) {}
 
   facturacionTotal(): number {
-    return 0;
+    return this.pedidoService.listar().reduce((acc, pedido) => acc + pedido.total, 0);
   }
 }
