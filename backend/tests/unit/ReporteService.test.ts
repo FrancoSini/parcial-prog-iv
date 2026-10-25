@@ -76,4 +76,35 @@ describe('ReporteService', () => {
       expect(reportes.cantidadVendidaPorProducto()).toEqual({ Expreso: 3 });
     });
   });
+
+  describe('productoMasVendido()', () => {
+    it('debería devolver undefined si no hay ventas', () => {
+      expect(reportes.productoMasVendido()).toBeUndefined();
+    });
+
+    it('debería devolver el tipo con más unidades vendidas', () => {
+      pedidos.crear([
+        { productoId: EXPRESO, cantidad: 2 },
+        { productoId: FILTRADO, cantidad: 4 },
+        { productoId: MUFFIN, cantidad: 7 },
+      ]);
+
+      expect(reportes.productoMasVendido()).toEqual({ producto: 'Pastelería', cantidad: 7 });
+    });
+
+    it('debería comparar el acumulado de todos los pedidos, no un pedido suelto', () => {
+      pedidos.crear([{ productoId: EXPRESO, cantidad: 2 }]);
+      pedidos.crear([{ productoId: EXPRESO, cantidad: 2 }]);
+      pedidos.crear([{ productoId: MUFFIN, cantidad: 3 }]);
+
+      expect(reportes.productoMasVendido()).toEqual({ producto: 'Expreso', cantidad: 4 });
+    });
+
+    it('debería quedarse con el primero que se vendió si hay empate', () => {
+      pedidos.crear([{ productoId: EXPRESO, cantidad: 2 }]);
+      pedidos.crear([{ productoId: MUFFIN, cantidad: 2 }]);
+
+      expect(reportes.productoMasVendido()?.producto).toBe('Expreso');
+    });
+  });
 });
