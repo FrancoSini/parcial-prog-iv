@@ -1,0 +1,43 @@
+import { describe, it, expect, beforeEach } from 'vitest';
+import { ReporteService } from '../../src/services/ReporteService.js';
+import { PedidoService } from '../../src/services/PedidoService.js';
+import { ProductoService } from '../../src/services/ProductoService.js';
+import type { Producto } from '../../src/models/Producto.js';
+
+// Producto de mentira con el precio y el tipo que yo elija
+const productoFalso = (id: number, precio: number, tipo: string) =>
+  ({ id, nombre: `Producto ${id}`, tipo, precioBase: 0, calcularPrecio: () => precio }) as Producto;
+
+const EXPRESO = 1;         // $5.000
+const FILTRADO = 2;        // $4.000
+const MUFFIN = 3;          // $2.500
+const EXPRESO_GRANDE = 4;  // $7.000 (otro Expreso, para probar que se suman por tipo)
+
+describe('ReporteService', () => {
+  let pedidos: PedidoService;
+  let reportes: ReporteService;
+
+  beforeEach(() => {
+    const productos = new ProductoService([
+      productoFalso(EXPRESO, 5000, 'Expreso'),
+      productoFalso(FILTRADO, 4000, 'Filtrado'),
+      productoFalso(MUFFIN, 2500, 'Pastelería'),
+      productoFalso(EXPRESO_GRANDE, 7000, 'Expreso'),
+    ]);
+    pedidos = new PedidoService(productos);
+    reportes = new ReporteService(pedidos, productos);
+  });
+
+  describe('facturacionTotal()', () => {
+    it('debería ser 0 si no hay pedidos', () => {
+      expect(reportes.facturacionTotal()).toBe(0);
+    });
+
+    it('debería sumar los totales de todos los pedidos', () => {
+      pedidos.crear([{ productoId: EXPRESO, cantidad: 2 }]); // 10.000
+      pedidos.crear([{ productoId: MUFFIN, cantidad: 1 }]);  // 2.500
+
+      expect(reportes.facturacionTotal()).toBe(12500);
+    });
+  });
+});
