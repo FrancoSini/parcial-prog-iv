@@ -20,7 +20,7 @@ export abstract class Cafe extends Producto {
     abstract get gramos(): number;
 
     get costoCafe(): number {
-        return 0;
+        return this.gramos * this.variedad.precioPorGramo;
 
     }
 
