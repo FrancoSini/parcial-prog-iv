@@ -11,13 +11,13 @@ export abstract class Producto {
   constructor(readonly id: number, readonly nombre: string, readonly precioBase: number) {}
   abstract get tipo(): string;
   abstract calcularPrecio(): number;
-  // toDTO(): ProductoDTO {
-  //       return {
-  //           id: this.id,
-  //           nombre: this.nombre,
-  //           tipo: this.tipo,
-  //           precioBase: this.precioBase,
-  //           precio: this.calcularPrecio(),
-  //       };
-    //}
+  toDTO(): ProductoDTO {
+        return {
+            id: this.id,
+            nombre: this.nombre,
+            tipo: this.tipo,
+            precioBase: this.precioBase,
+            precio: this.calcularPrecio(),
+        };
+    }
 }
