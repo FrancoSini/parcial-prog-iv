@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { CafeExpreso, PRECIO_BASE_EXPRESO } from '../../src/models/CafeExpresso.js';
+import { CafeExpreso, PRECIO_BASE_EXPRESO } from '../../src/models/CafeExpreso.js';
 import type { Variedad } from '../../src/models/Variedad.js';
 
 
