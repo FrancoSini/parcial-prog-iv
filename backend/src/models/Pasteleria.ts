@@ -5,6 +5,6 @@ export class Pasteleria extends Producto {
     }
 
     calcularPrecio(): number {
-        return 0;
+        return this.precioBase;
     }
 }
