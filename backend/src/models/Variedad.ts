@@ -11,7 +11,7 @@ export const BRASIL: Variedad = {
 };
 
 export const COLOMBIA: Variedad = {
-  nombre: "Combia",
+  nombre: "Colombia",
   precioPorGramo: 180,
   descripcion: "Acidez media, cuerpo equilibrado y notas cítricas y florales",
 };
