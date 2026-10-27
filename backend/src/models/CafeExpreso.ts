@@ -23,6 +23,6 @@ export class CafeExpreso extends Cafe {
     }
 
     get gramos(): number {
-        return 0;
+        return GRAMOS_EXPRESO[this.tamano];
     }
 }
