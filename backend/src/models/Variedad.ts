@@ -5,7 +5,7 @@ export interface Variedad {
 }
 
 export const BRASIL: Variedad = {
-  nombre: "Varsil",
+  nombre: "Brasil",
   precioPorGramo: 140,
   descripcion: "Acidez baja, cuerpo denso y notas de avellana",
 };
