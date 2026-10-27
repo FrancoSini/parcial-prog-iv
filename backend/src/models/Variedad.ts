@@ -22,4 +22,4 @@ export const ETIOPIA: Variedad = {
   descripcion: "Acidez muy viva, cuerpo ligero y notas frutales",
 };
 
-export const VARIEDADES: readonly Variedad[] = [b, c, e];
+export const VARIEDADES: readonly Variedad[] = [BRASIL, COLOMBIA, ETIOPIA];
