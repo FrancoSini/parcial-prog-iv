@@ -20,7 +20,7 @@ export class CafeFiltrado extends Cafe {
   }
 
   get tipo(): string {
-    return "Expreso";
+    return "Filtrado";
   }
 
   get gramos(): number {
