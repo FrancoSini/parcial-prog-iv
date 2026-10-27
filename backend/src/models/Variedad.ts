@@ -17,7 +17,7 @@ export const COLOMBIA: Variedad = {
 };
 
 export const ETIOPIA: Variedad = {
-  nombre: "Etiopaa",
+  nombre: "Etiopía",
   precioPorGramo: 240,
   descripcion: "Acidez muy viva, cuerpo ligero y notas frutales",
 };
